@@ -11,11 +11,16 @@ void setup() {
  
   pinMode(ledPin, OUTPUT);
   feedback();
-  i=0; 
+  i=1; 
 }
 
 void loop() {
+    if (i == 100) {
+      feedback();
+    }
+  
     i++;
+
     if (Serial.available()){
       desiredLedStatus = Serial.read();
     }
@@ -29,10 +34,7 @@ void loop() {
       digitalWrite(13, HIGH);
       feedback();
     }
-    
-    if (i == 100) {
-      feedback();
-    }
+  
     delay(100);
 }
 
@@ -48,5 +50,5 @@ void feedback() {
       Serial.println('ON');
     }
     
-    i = 0; 
+    i = 1; 
 }
