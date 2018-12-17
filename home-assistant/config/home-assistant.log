@@ -1,0 +1,16 @@
+2018-12-17 00:07:25 ERROR (MainThread) [homeassistant.core] Error doing job: Task exception was never retrieved
+Traceback (most recent call last):
+  File "/usr/src/app/homeassistant/components/discovery.py", line 171, in scan_devices
+    results = await hass.async_add_job(_discover, netdisco)
+  File "/usr/local/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/src/app/homeassistant/components/discovery.py", line 197, in _discover
+    netdisco.scan()
+  File "/usr/local/lib/python3.6/site-packages/netdisco/discovery.py", line 63, in scan
+    self.gdm.scan()
+  File "/usr/local/lib/python3.6/site-packages/netdisco/gdm.py", line 22, in scan
+    self.update()
+  File "/usr/local/lib/python3.6/site-packages/netdisco/gdm.py", line 79, in update
+    sock.sendto(gdm_msg, (gdm_ip, gdm_port))
+OSError: [Errno 101] Network is unreachable
+2018-12-17 00:07:28 ERROR (MainThread) [homeassistant.components.updater] Could not contact Home Assistant Update to check for updates

@@ -1,0 +1,28 @@
+version: '3'
+services:
+  homeassistant:
+    container_name: homeassistant
+    restart: unless-stopped
+    image: homeassistant/home-assistant
+    volumes:
+      - ./home-assistant/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    depends_on:
+      - mqtt
+    network_mode: host
+    privileged: true
+
+  mqtt:
+    container_name: mqtt
+    restart: unless-stopped
+    image: eclipse-mosquitto
+    privileged: true
+    volumes:
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/config/users.pwd:/mosquitto/config/users.pwd
+      - ./mosquitto/log:/mosquitto/log
+      - ./mosquitto/data:/mosquitto/data
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "1883:1883"
+      - "9001:9001"
