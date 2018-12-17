@@ -1,44 +1,52 @@
 const int ledPin = 13;
 unsigned char desiredLedStatus;
 unsigned char ledStatus;
-unsigned char serialData;
+int i;
 
 void setup() {
-  pinMode(ledPin, OUTPUT);
   Serial.begin(9600);
-  digitalWrite(13, HIGH);
-  ledStatus = 'OFF';
-  desiredLedStatus = 'OFF';
+  while(!Serial){
+    ;
+  }
+ 
+  pinMode(ledPin, OUTPUT);
+  feedback();
+  i=0; 
 }
 
 void loop() {
+    i++;
+    if (Serial.available()){
+      desiredLedStatus = Serial.read();
+    }
     
-  if (Serial.available()) {
-    serialData = Serial.read();
-    if (serialData == '1') {
-      desiredLedStatus = 'ON';
+    if (ledStatus == HIGH && desiredLedStatus == '0'){
+      digitalWrite(13, LOW);
+      feedback();
     }
-    if (serialData == '0') {
-      desiredLedStatus = 'OFF';
+    
+    if (ledStatus == LOW && desiredLedStatus == '1'){
+      digitalWrite(13, HIGH);
+      feedback();
     }
-  }
-  
-  if (digitalRead(13) == LOW) {
-    ledStatus = 'OFF';
-  }
-  
-  if (digitalRead(13) == HIGH) {
-    ledStatus = 'ON';
-  }  
-  
-  if (desiredLedStatus == 'ON') {
-    digitalWrite(13, HIGH); 
-  }
- 
- if (desiredLedStatus == 'OFF') {
-    digitalWrite(13, LOW); 
-  } 
- 
-  delay(1000);
-  Serial.println(ledStatus); 
+    
+    if (i == 100) {
+      feedback();
+    }
+    delay(100);
+}
+
+void feedback() { 
+    delay(100);
+    ledStatus = digitalRead(13);
+    
+    if (ledStatus == LOW) {
+      Serial.println('OFF');
+    }
+    
+    if (ledStatus == HIGH) {
+      Serial.println('ON');
+    }
+    
+    i = 0; 
 }
