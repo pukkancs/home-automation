@@ -56,9 +56,22 @@ sun:
 # Sensors
 sensor:
   - platform: mqtt
-    state_topic: "home/test/led"
-    name: "My Led"
+    state_topic: "home/test/sensor/array/1"
+    name: "Door Status"
+    value_template: "{{ value_json.doorStatus }}"
     expire_after: 20
+  - platform: mqtt
+    state_topic: "home/test/sensor/array/1"
+    name: "Temperature"
+    unit_of_measurement: '°C'
+    value_template: "{{ value_json.temperature }}"
+    expire_after: 20  
+  - platform: mqtt
+    state_topic: "home/test/sensor/array/1"
+    name: "Humidity"
+    unit_of_measurement: '%'
+    value_template: "{{ value_json.humidity }}"
+    expire_after: 20  
     
 mqtt:
   broker: 127.0.0.1
